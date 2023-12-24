@@ -1,14 +1,14 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import random
-
 import HitResults as hr
 import WoundResults as wr
 import SaveResults as sr
 import RsltAnalysis as dr
-import RollDice as rd
 
 def main():
+    total_hits_results_df = pd.DataFrame()
+    total_wound_results_df = pd.DataFrame()
+    total_save_results_df = pd.DataFrame()
+
 
     weapon_profile = {"Name": ["Volkanite disintergrator","EtaCarn Plasma gun"],
                     "Weapon Skill": [3,3],
@@ -24,23 +24,25 @@ def main():
                     "Crits":[6,6]
                     }
 
-    num_dice = 100
-    unit_size = [1,5,10,15,20]
+    sample_size = 10
+    unit_size = 10
     reroll_1s = False # True/False to reroll 1 for hit or wounds
     reroll_all = False # True/False to reroll all for hit or wounds
     cover = False # True/False if target has cover
 
     weapon_df = pd.DataFrame.from_dict(weapon_profile)
 
-    hit_results_df = hr.hit_results(num_dice,weapon_df)
-    print("hit_results_df",hit_results_df)
+    for x in range(sample_size):
+        hit_results_df = hr.hit_results(unit_size,weapon_df)
+        total_hits_results_df = pd.concat([total_hits_results_df,hit_results_df])
 
-    wounds_results_df = wr.wound_results(hit_results_df,weapon_df)
-    print("wound results",wounds_results_df)
+        wounds_results_df = wr.wound_results(hit_results_df,weapon_df)
+        total_wound_results_df = pd.concat([total_wound_results_df ,wounds_results_df])
 
-    save_results_df = sr.save_results(wounds_results_df,weapon_df)
+        save_results_df = sr.save_results(wounds_results_df,weapon_df)
+        total_save_results_df = pd.concat([total_save_results_df ,save_results_df])
 
-    dr.create_bargraph(weapon_df, hit_results_df, wounds_results_df, save_results_df)
+    dr.create_bargraph(weapon_df, total_hits_results_df, total_wound_results_df, total_save_results_df)
 
 if __name__ == "__main__":
     main()
