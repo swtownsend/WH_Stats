@@ -1,10 +1,10 @@
 import pandas as pd
+
 import RollDice as rd
 
 
 def wound_results(hit_df, weapon_df):
     wound_results_df = pd.DataFrame()
-
 
     for index, row in weapon_df.iterrows():
 
@@ -14,13 +14,10 @@ def wound_results(hit_df, weapon_df):
 
             lethal_hit = hit_df['Num of crits'][index]
 
-
         else:
 
             dice = (hit_df['Num of hits'][index].astype(int)) + hit_df['Sustained Hits'][index].astype(int)
-
-            lethal_hit = hit_df['Num of crits'][index]
-
+            lethal_hit = 0
 
         dice_results_df = rd.roll_results(weapon_df["Name"][index], dice=dice)
         count_sr = dice_results_df.groupby(['Name', 'Dice Roll Results']).size()  # .groupby(level=0).max()
@@ -40,14 +37,11 @@ def wound_results(hit_df, weapon_df):
         wounds_6 = count_df.loc[(count_df['Name'] == weapon_df["Name"][index]) &
                                 (count_df['Dice Roll Results'] >= 6), 'counts'].sum()
 
-        Results_dict = ({"Name": weapon_df["Name"][index],
-                         "Total hits": [dice],
-                         "Lethal hits": [lethal_hit],
-                         "Wounds 2+": [wounds_2],
-                         "Wounds 3+": [wounds_3],
-                         "Wounds 4+": [wounds_4],
-                         "Wounds 5+": [wounds_5],
-                         "Wounds 6+": [wounds_6]
+        Results_dict = ({"Name": [weapon_df["Name"][index],weapon_df["Name"][index],weapon_df["Name"][index],weapon_df["Name"][index],weapon_df["Name"][index]],
+                         "Total hits": [dice,dice,dice,dice,dice],
+                         "Lethal hits": [lethal_hit,lethal_hit,lethal_hit,lethal_hit,lethal_hit],
+                         'Wound Roll': [2,3,4,5,6],
+                         "Num Successful Wounds": [wounds_2,wounds_3,wounds_4,wounds_5,wounds_6],
                          })
 
         # print("Results",Results_dict)
