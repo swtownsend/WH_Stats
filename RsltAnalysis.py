@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 
 def create_bargraph(weapon_df, hit_results_df, wounds_results_df, save_results_df):
@@ -38,20 +39,14 @@ def create_attack_wnd_percent(weapon_df, hit_results_df, wounds_results_df, save
     plt.show()
 
 
-def merge_data(weapon_df, hit_results_df, wounds_results_df, save_results_df):
+def merge_data(save_results_df):
 
-    for index, row in weapon_df.iterrows():
-
-        print(save_results_df['Wound Roll'][index] == wounds_results_df['Wound Roll'][index])
-        print(save_results_df["Name"][index] == wounds_results_df['Name'][index])
-
-        if ((save_results_df['Wound Roll'][index].astype(int) == wounds_results_df['Wound Roll'][index].astype(int)) &
-                (save_results_df["Name"][index] == wounds_results_df['Name'][index])):
-            save_results_df['Num Successful Wounds'][index] = wounds_results_df['Wound Roll'][index]
 
 
     print(save_results_df.shape)
     print(save_results_df.head)
-    print(save_results_df.tail())
+    print(save_results_df.tail)
+
+
 
 

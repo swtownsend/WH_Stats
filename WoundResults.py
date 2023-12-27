@@ -8,7 +8,7 @@ def wound_results(hit_df, weapon_df):
 
     for index, row in weapon_df.iterrows():
 
-        if (weapon_df["Lethal Hit"][index] == 1):
+        if weapon_df["Lethal Hit"][index] == 1:
             dice = ((hit_df['Num of hits'][index].astype(int) -
                      hit_df['Num of crits'][index].astype(int)) + hit_df['Sustained Hits'][index].astype(int))
 
@@ -37,11 +37,21 @@ def wound_results(hit_df, weapon_df):
         wounds_6 = count_df.loc[(count_df['Name'] == weapon_df["Name"][index]) &
                                 (count_df['Dice Roll Results'] >= 6), 'counts'].sum()
 
-        Results_dict = ({"Name": [weapon_df["Name"][index],weapon_df["Name"][index],weapon_df["Name"][index],weapon_df["Name"][index],weapon_df["Name"][index]],
-                         "Total hits": [dice,dice,dice,dice,dice],
-                         "Lethal hits": [lethal_hit,lethal_hit,lethal_hit,lethal_hit,lethal_hit],
+        Results_dict = ({"Name": [weapon_df["Name"][index],weapon_df["Name"][index],weapon_df["Name"][index],
+                                  weapon_df["Name"][index],weapon_df["Name"][index]],
+                         "Total Attacks":[hit_df["Total attacks"][index],hit_df["Total attacks"][index],
+                                          hit_df["Total attacks"][index],hit_df["Total attacks"][index],
+                                          hit_df["Total attacks"][index]],
+                         "Num of Crits":[hit_df["Num of crits"][index],hit_df["Num of crits"][index],
+                                         hit_df["Num of crits"][index],hit_df["Num of crits"][index],
+                                         hit_df["Num of crits"][index]],
+                         "Sustained Hits":[hit_df["Sustained Hits"][index],hit_df["Sustained Hits"][index],
+                                           hit_df["Sustained Hits"][index],hit_df["Sustained Hits"][index],
+                                           hit_df["Sustained Hits"][index]],
+                         "Total Hits": [dice,dice,dice,dice,dice],
+                         "Lethal Hits": [lethal_hit,lethal_hit,lethal_hit,lethal_hit,lethal_hit],
                          'Wound Roll': [2,3,4,5,6],
-                         "Num Successful Wounds": [wounds_2,wounds_3,wounds_4,wounds_5,wounds_6],
+                         "Num of Successful Wounds": [wounds_2,wounds_3,wounds_4,wounds_5,wounds_6],
                          })
 
         # print("Results",Results_dict)

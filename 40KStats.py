@@ -46,11 +46,15 @@ def main():
         save_results_df = sr.save_results(wounds_results_df, weapon_df)
         total_save_results_df = pd.concat([total_save_results_df, save_results_df])
 
+
+    print('tot hits df',total_hits_results_df.head)
+    print('tot wound df',total_wound_results_df.head)
+    print('tot save df',total_save_results_df.head)
     #dr.create_bargraph(weapon_df, total_hits_results_df, total_wound_results_df, total_save_results_df)
 
     #dr.create_attack_wnd_percent(weapon_df, total_hits_results_df, total_wound_results_df, total_save_results_df)
 
-    dr.merge_data(weapon_df, total_hits_results_df, total_wound_results_df, total_save_results_df)
+    dr.merge_data(total_save_results_df)
 
 if __name__ == "__main__":
     main()

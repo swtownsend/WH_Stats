@@ -51,6 +51,6 @@ def hit_results(num_dice, weapon_df):
         hits_results_df = pd.concat([hits_results_df, hits_df])
 
     hits_results_df.reset_index(drop=True, inplace=True)
-    print(hits_results_df.shape)
+    #print(hits_results_df.shape)
 
     return hits_results_df

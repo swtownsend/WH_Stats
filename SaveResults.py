@@ -4,12 +4,13 @@ import RollDice as rd
 
 
 def save_results(wound_df, weapon_df):
+    global wound_rolls_2, wound_rolls_3, wound_rolls_4, wound_rolls_5, wound_rolls_6,dev_wounds,dmg_dev_wounds
+
     save_results_df = pd.DataFrame()
-    wound_rolls = 0
 
     for index, row in weapon_df.iterrows():
 
-        if (weapon_df["Devastating wound"][index] == 1):
+        if weapon_df["Devastating wound"][index] == 1:
 
             dev_wounds = wound_df['Wounds 6+'][index].astype(int)
             dmg_dev_wounds = calc_dmg(weapon_df['Damage'][index], dev_wounds)
@@ -21,9 +22,9 @@ def save_results(wound_df, weapon_df):
 
         # calculate number of saves from wounds roll at 2+
         if (wound_df['Wound Roll'][index] == 2) & (weapon_df["Name"][index] == wound_df['Name'][index]):
-            wound_rolls = wound_df["Num Successful Wounds"][index]
+            wound_rolls_2 = wound_df["Num of Successful Wounds"][index]
 
-        dice = wound_rolls - dev_wounds
+        dice = wound_rolls_2 - dev_wounds
         dice_results_df = rd.roll_results(weapon_df["Name"][index], dice=dice)
         count_df = roll_counts(dice_results_df)
 
@@ -50,9 +51,9 @@ def save_results(wound_df, weapon_df):
 
         # calculate number of saves from wounds roll at 3+
         if (wound_df['Wound Roll'][index] == 3) & (weapon_df["Name"][index] == wound_df['Name'][index]):
-            wound_rolls = wound_df["Num Successful Wounds"][index]
+            wound_rolls_3 = wound_df["Num of Successful Wounds"][index]
 
-        dice = wound_rolls - dev_wounds
+        dice = wound_rolls_3 - dev_wounds
         dice_results_df = rd.roll_results(weapon_df["Name"][index], dice=dice)
         count_df = roll_counts(dice_results_df)
 
@@ -78,9 +79,9 @@ def save_results(wound_df, weapon_df):
 
         # calculate number of saves from wounds roll at 4+
         if (wound_df['Wound Roll'][index] == 4) & (weapon_df["Name"][index] == wound_df['Name'][index]):
-            wound_rolls = wound_df["Num Successful Wounds"][index]
+            wound_rolls_4 = wound_df["Num of Successful Wounds"][index]
 
-        dice = wound_rolls - dev_wounds
+        dice = wound_rolls_4 - dev_wounds
         dice_results_df = rd.roll_results(weapon_df["Name"][index], dice=dice)
         count_df = roll_counts(dice_results_df)
 
@@ -106,9 +107,9 @@ def save_results(wound_df, weapon_df):
 
         # calculate number of saves from wounds roll at 5+
         if (wound_df['Wound Roll'][index] == 5) & (weapon_df["Name"][index] == wound_df['Name'][index]):
-            wound_rolls = wound_df["Num Successful Wounds"][index]
+            wound_rolls_5 = wound_df["Num of Successful Wounds"][index]
 
-        dice = wound_rolls - dev_wounds
+        dice = wound_rolls_5 - dev_wounds
         dice_results_df = rd.roll_results(weapon_df["Name"][index], dice=dice)
         count_df = roll_counts(dice_results_df)
 
@@ -134,9 +135,9 @@ def save_results(wound_df, weapon_df):
 
         # calculate number of saves from wounds roll at 6+
         if (wound_df['Wound Roll'][index] == 6) & (weapon_df["Name"][index] == wound_df['Name'][index]):
-            wound_rolls = wound_df["Num Successful Wounds"][index]
+            wound_rolls_6 = wound_df["Num of Successful Wounds"][index]
 
-        dice = wound_rolls - dev_wounds
+        dice = wound_rolls_6 - dev_wounds
         dice_results_df = rd.roll_results(weapon_df["Name"][index], dice=dice)
         count_df = roll_counts(dice_results_df)
 
@@ -162,7 +163,92 @@ def save_results(wound_df, weapon_df):
 
         # create dict of save and wound results
         sv_results_dict = ({"Name": weapon_df["Name"][index],
+                            "Total Attacks": [wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index], wound_df["Total Attacks"][index],
+                                              wound_df["Total Attacks"][index]],
+                            "Num of Crits": [wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index], wound_df["Num of Crits"][index],
+                                             wound_df["Num of Crits"][index]],
+                            "Sustained Hits": [wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index],
+                                               wound_df["Sustained Hits"][index], wound_df["Sustained Hits"][index]],
+                            "Total Hits": [wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index], wound_df["Total Hits"][index],
+                                           wound_df["Total Hits"][index]],
+                            "Lethal Hits": [wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index], wound_df["Lethal Hits"][index],
+                                            wound_df["Lethal Hits"][index]],
                             "Wound Roll": [2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6],
+                            "Num of Successful Wounds": [wound_rolls_2, wound_rolls_2, wound_rolls_2, wound_rolls_2,
+                                                         wound_rolls_2,
+                                                         wound_rolls_3, wound_rolls_3, wound_rolls_3, wound_rolls_3,
+                                                         wound_rolls_3,
+                                                         wound_rolls_4, wound_rolls_4, wound_rolls_4, wound_rolls_4,
+                                                         wound_rolls_4,
+                                                         wound_rolls_5, wound_rolls_5, wound_rolls_5, wound_rolls_5,
+                                                         wound_rolls_5,
+                                                         wound_rolls_6, wound_rolls_6, wound_rolls_6, wound_rolls_6,
+                                                         wound_rolls_6],
                             "Save Roll": [2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6, 2, 3, 4, 5, 6],
                             "Num of Successful Saves": [wnd2_save2, wnd2_save3, wnd2_save4, wnd2_save5, wnd2_save6,
                                                         wnd3_save2, wnd3_save3, wnd3_save4, wnd3_save5, wnd3_save6,
@@ -215,9 +301,8 @@ def roll_counts(dice_results_df):
 
 
 def calc_dmg(wpn_dmg, wounds=1, dev_wounds=0):
-    dmg_caused = 0
-
-    if isinstance(wpn_dmg, str) == True:
+    global dmg_caused
+    if isinstance(wpn_dmg, str):
         if wpn_dmg[-1] == '6':
             sustained_hit_list = rd.roll_d3((wounds + dev_wounds))
             # print('sustained_hit_list',sustained_hit_list)
