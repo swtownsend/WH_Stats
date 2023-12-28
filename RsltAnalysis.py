@@ -40,12 +40,17 @@ def create_attack_wnd_percent(weapon_df, hit_results_df, wounds_results_df, save
 
 
 def merge_data(save_results_df):
-
-
-
+    pd.set_option('display.max_columns', None)
     print(save_results_df.shape)
     print(save_results_df.head)
     print(save_results_df.tail)
+
+    #sns.lmplot(x='Total Attacks',y="Amt of Dmg", data=save_results_df)
+    sns.lmplot(x='Num of Wounds',y="Total Attacks",hue='Name',col="Wound Roll", data=save_results_df)
+    
+    #attack_wnd_df.plot(x='Name')
+    plt.show()
+
 
 
 
