@@ -38,6 +38,7 @@ def wound_results(hit_df, weapon_df):
                              "Weapon Attacks": [hit_df["Weapon Attacks"][index]],
                              "Weapon Damage" : [hit_df["Weapon Damage"][index]],
                              "Total Attacks":[hit_df["Total Attacks"][index]],
+                             "Num of Hits": [hit_df["Num of Hits"][index]],
                              "Num of Crits":[hit_df["Num of Crits"][index]],
                              "Sustained Hits":[hit_df["Sustained Hits"][index]],
                              "Total Hits": [dice],

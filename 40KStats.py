@@ -30,7 +30,7 @@ def main():
                         }
 
     sample_size = 100
-    unit_size = 10
+    unit_size = 1
     reroll_1s = False  # True/False to reroll 1 for hit or wounds
     reroll_all = False  # True/False to reroll all for hit or wounds
     cover = False  # True/False if target has cover
@@ -59,7 +59,7 @@ def main():
 
     #dr.create_attack_wnd_percent(weapon_df, total_hits_results_df, total_wound_results_df, total_save_results_df)
 
-    #dr.merge_data(total_save_results_df)
+    dr.merge_data(total_save_results_df)
 
 if __name__ == "__main__":
     main()
