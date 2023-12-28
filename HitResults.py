@@ -10,7 +10,7 @@ def hit_results(num_dice, weapon_df):
     for index, row in weapon_df.iterrows():
 
         if weapon_df["Rapid Fire"][index] == 1:
-            dice = 2*(num_dice * weapon_df['Attacks'][index])
+            dice = 2 * (num_dice * weapon_df['Attacks'][index])
         else:
 
             dice = (num_dice * weapon_df['Attacks'][index])
@@ -19,18 +19,15 @@ def hit_results(num_dice, weapon_df):
         count_sr = dice_results_df.groupby(['Name', 'Dice Roll Results']).size()  # .groupby(level=0).max()
         count_df = pd.DataFrame(count_sr).reset_index()
         count_df.columns.values[2] = "counts"
-        #print(count_df.head())
+        # print(count_df.head())
         # print(count_df.shape)
 
-        Total_attacks = count_df.loc[(count_df['Name'] == weapon_df["Name"][index]), 'counts'].sum()
+        total_attacks = count_df.loc[(count_df['Name'] == weapon_df["Name"][index]), 'counts'].sum()
 
-        
-        
-        Success_hit = count_df.loc[(count_df['Name'] == weapon_df["Name"][index]) &
+        success_hit = count_df.loc[(count_df['Name'] == weapon_df["Name"][index]) &
                                    (count_df['Dice Roll Results'] >= weapon_df['Weapon Skill'][
                                        index]), 'counts'].sum()
 
-        
         # add crits
         crit_hit = count_df.loc[(count_df['Name'] == weapon_df["Name"][index]) &
                                 (count_df['Dice Roll Results'] >= weapon_df['Crits'][index]), 'counts'].sum()
@@ -43,30 +40,40 @@ def hit_results(num_dice, weapon_df):
         else:
             sustained_hit = int((crit_hit * weapon_df['Sustained hits'][index]))
 
-        Results_dict = ({"Name": weapon_df["Name"][index],
+        if weapon_df["Lethal Hit"][index] == 1:
+            tot_success_hit = (success_hit - crit_hit) + sustained_hit
+            lethal_hit = crit_hit
+        else:
+            tot_success_hit = success_hit + sustained_hit
+            lethal_hit = 0
+
+
+        results_dict = ({"Name": weapon_df["Name"][index],
                          "Weapon Skill": weapon_df["Weapon Skill"][index],
                          "Weapon Attacks": weapon_df["Attacks"][index],
-                         "Weapon Damage" : weapon_df["Damage"][index],
-                         "Total Attacks": [Total_attacks],
-                         "Num of Hits": [Success_hit],
+                         "Weapon Damage": weapon_df["Damage"][index],
+                         "Total Attacks": [total_attacks],
+                         "Num of Hits": [success_hit],
                          "Num of Crits": [crit_hit],
-                         "Sustained Hits": [sustained_hit],
-                         "Weapon Sustained Hits":  weapon_df["Sustained hits"][index],
-                         "Weapon Lethal Hit":  weapon_df["Lethal Hit"][index],
-                         "Devastating Wound":  weapon_df["Devastating wound"][index],
-                         "Mortal Wound":  weapon_df["Mortal wound"][index],
-                         "Blast":  weapon_df["Blast"][index],
-                         "Crits":  weapon_df["Crits"][index],
-                         "Rapid Fire":  weapon_df["Rapid Fire"][index],
-                         "Twin linked":  weapon_df["Twin_linked"][index]             
+                         "Num Lethal Hits":[lethal_hit],
+                         "Num Sustained Hits": [sustained_hit],
+                         "Total Hits": [tot_success_hit],
+                         "Weapon Sustained Hits": weapon_df["Sustained hits"][index],
+                         "Weapon Lethal Hit": weapon_df["Lethal Hit"][index],
+                         "Devastating Wound": weapon_df["Devastating wound"][index],
+                         "Mortal Wound": weapon_df["Mortal wound"][index],
+                         "Blast": weapon_df["Blast"][index],
+                         "Crits": weapon_df["Crits"][index],
+                         "Rapid Fire": weapon_df["Rapid Fire"][index],
+                         "Twin linked": weapon_df["Twin_linked"][index]
                          })
 
-        # print("Results",Results_dict)
-        hits_df = pd.DataFrame.from_dict(Results_dict)
+        # print("Results",results_dict)
+        hits_df = pd.DataFrame.from_dict(results_dict)
         # print('hits df', hits_df)
         hits_results_df = pd.concat([hits_results_df, hits_df])
 
     hits_results_df.reset_index(drop=True, inplace=True)
-    #print(hits_results_df.shape)
+    # print(hits_results_df.shape)
 
     return hits_results_df

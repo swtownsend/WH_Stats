@@ -9,18 +9,7 @@ def wound_results(hit_df, weapon_df):
 
     for index, row in hit_df.iterrows():
 
-        if hit_df["Weapon Lethal Hit"][index] == 1:
-            dice = int((hit_df['Num of hits'][index] -
-                     hit_df['Num of crits'][index]) + hit_df['Sustained Hits'][index])
-
-            lethal_hit = hit_df['Num of crits'][index]
-
-        else:
-
-            dice = int(hit_df['Num of Hits'][index]) + hit_df['Sustained Hits'][index].astype(int)
-            lethal_hit = 0
-
-        dice_results_df = rd.roll_results(hit_df["Name"][index], dice=dice)
+        dice_results_df = rd.roll_results(hit_df["Name"][index], dice=hit_df["Total Hits"][index])
         count_sr = dice_results_df.groupby(['Name', 'Dice Roll Results']).size()  # .groupby(level=0).max()
         count_df = pd.DataFrame(count_sr).reset_index()
         count_df.columns.values[2] = "counts"
@@ -40,9 +29,9 @@ def wound_results(hit_df, weapon_df):
                              "Total Attacks":[hit_df["Total Attacks"][index]],
                              "Num of Hits": [hit_df["Num of Hits"][index]],
                              "Num of Crits":[hit_df["Num of Crits"][index]],
-                             "Sustained Hits":[hit_df["Sustained Hits"][index]],
-                             "Total Hits": [dice],
-                             "Num Lethal Hits": [lethal_hit],
+                             "Num Sustained Hits":[hit_df["Num Sustained Hits"][index]],
+                             "Num Lethal Hits": [hit_df["Num Lethal Hits"][index]],
+                             "Total Hits": [hit_df["Total Hits"][index]],
                              'Wound Roll': [i],
                              "Num of Successful Wounds": [wounds],
                              "Weapon Sustained Hits":  hit_df["Weapon Sustained Hits"][index],

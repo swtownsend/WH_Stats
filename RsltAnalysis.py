@@ -46,7 +46,8 @@ def merge_data(save_results_df):
     print(save_results_df.tail)
 
     #sns.lmplot(x='Total Attacks',y="Amt of Dmg", data=save_results_df)
-    sns.lmplot(y='Amt of Dmg',x="Num of Hits",hue='Name', data=save_results_df)
+    sns.lmplot(y='Amt of Dmg',x="Total Hits",hue='Name',col='Wound Roll', data=save_results_df)
+    sns.lmplot(y='Total Attacks', x="Total Hits", hue='Name', col='Wound Roll', data=save_results_df)
     
     #attack_wnd_df.plot(x='Name')
     plt.show()
